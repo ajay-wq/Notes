@@ -98,14 +98,18 @@ set classes = [
 Form alters which used in modules of drupal
 
 ==start==
-function undp_custom_undprecovery_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-    /* @var Drupal\Core\Entity\FieldableEntityInterface $entity */
-    $formObject = $form_state->getFormObject();
-    if ($formObject instanceof \Drupal\Core\Entity\EntityFormInterface) {
-      $entity = $formObject->getEntity();
-      if ($entity->getEntityTypeId() === 'node' && in_array($entity->bundle(), ['landing_page'])) {
-        $form['#attached']['library'][] = 'undp_custom_undprecovery/admin_theme_css';
+
+
+      function undp_custom_undprecovery_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+          /* @var Drupal\Core\Entity\FieldableEntityInterface $entity */
+          $formObject = $form_state->getFormObject();
+          if ($formObject instanceof \Drupal\Core\Entity\EntityFormInterface) {
+            $entity = $formObject->getEntity();
+            if ($entity->getEntityTypeId() === 'node' && in_array($entity->bundle(), ['landing_page'])) {
+              $form['#attached']['library'][] = 'undp_custom_undprecovery/admin_theme_css';
+            }
+          }     
       }
-    }     
-}
+
+
 ==end==
