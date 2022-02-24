@@ -13,7 +13,7 @@ For Study Material
 
 
 
-For making Tabs inside web
+For making Tabs inside website
 
 ==start==
 {#
