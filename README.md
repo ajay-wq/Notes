@@ -110,6 +110,39 @@ Form alters which used in modules of drupal
             }
           }     
       }
+      
+                  /**  
+             * Implements hook_field_widget_WIDGET_TYPE_form_alter().  
+             */  
+
+            function undp_custom_futureofdevelopment_field_widget_entity_reference_paragraphs_form_alter(&$element, \Drupal\Core\Form\FormStateInterface $form_state, $context) {
+              /** @var \Drupal\field\Entity\FieldConfig $field_definition */
+              $field_definition = $context['items']->getFieldDefinition();
+              $paragraph_entity_reference_field_name = $field_definition->getName();
+
+              if ($paragraph_entity_reference_field_name == 'field_paragraph_reference') {
+                /** @see \Drupal\paragraphs\Plugin\Field\FieldWidget\ParagraphsWidget::formElement() */
+                $widget_state = \Drupal\Core\Field\WidgetBase::getWidgetState($element['#field_parents'], $paragraph_entity_reference_field_name, $form_state);
+
+                /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
+                $paragraph_instance = $widget_state['paragraphs'][$element['#delta']]['entity'];
+                $paragraph_type = $paragraph_instance->bundle();
+
+                // Determine which paragraph type is being embedded.
+                if ($paragraph_type == 'our_vision') {
+                  $dependee_field_name = 'field_style_vision';
+                  $selector = sprintf('select[name="%s[%d][subform][%s]"]', $paragraph_entity_reference_field_name, $element['#delta'], $dependee_field_name);
+
+                  // Dependent fields.
+                  $element['subform']['field_link']['#states'] = [
+                    'visible' => [
+                      $selector => ['value' => 'image_sm'],
+                   ],
+                  ];
+                }
+              }
+            }
+
 
 
 ==end==
